@@ -6,7 +6,7 @@ import React from 'react'
  */
 export default function HighlightText({text='', highlight=''}) {
     if(!highlight){
-        return <p>{text}</p>
+        return <p title={text} className='text-left line-clamp-1'>{text}</p>
     }
 
     const parts = text.split(new RegExp(`(${highlight})`, 'gi'));

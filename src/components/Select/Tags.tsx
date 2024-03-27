@@ -1,17 +1,15 @@
 import React from 'react'
 import Tag from './Tag'
+import { useDataStore } from '@/store/DataStore'
+import classNames from 'classnames'
 
 const Tags = () => {
-    return null;
+    const selectedCharacters = useDataStore(s=>s.selectedCharacters)
     return (
-        <div className='flex gap-1 flex-wrap max-w-80 items-center justify-center border p-2 rounded'>
-            <Tag text='Morty Smith'/>
-            <Tag text='Cool Rick'/>
-            <Tag text='Morty Smith'/>
-            <Tag text='Cool'/>
-            <Tag text='Cool Rick'/>
-            <Tag text='Morty Smith'/>
-            <Tag text='Cool Rick'/>
+        <div className={classNames('flex flex-wrap items-center gap-1',{
+            'border-b pb-1':selectedCharacters.length>0
+        })}>
+            {selectedCharacters.map(c=><Tag key={c.id} id={c.id} text={c.name}/>)}
         </div>
     )
 }

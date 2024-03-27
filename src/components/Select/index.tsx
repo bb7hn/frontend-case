@@ -19,7 +19,8 @@ const Select = () => {
 
     const { loading, error, data } = useQuery<GET_CHARACTERS_RESPONSE>(GET_CHARACTERS(page,query));
 
-    useEffect(()=>{
+    /* useEffect(()=>{
+        //get initial characters
         client.query({
             query:GET_CHARACTERS(page,query)
         }).then(res=>{
@@ -27,21 +28,19 @@ const Select = () => {
             setInfo(res.data.characters.info)
         })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
+    },[]) */
 
-    /* useEffect(()=>{
+    useEffect(()=>{
         if(!data || error) return
         
         addCharacters(data.characters.results)
         setInfo(data.characters.info)
         
-    },[data, error, addCharacters, setInfo]) */
+    },[data, error, addCharacters, setInfo])
 
     return (
         <>
-            <Tags/>
             <Search/>
-            <Results/>
         </>
     )
 }

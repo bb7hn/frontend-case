@@ -1,17 +1,21 @@
+import { Character } from '@/graphql/getCharacters'
+import { useDataStore } from '@/store/DataStore'
 import React from 'react'
 
 interface TagProps{
-    text:string
-    onRemove?:()=>(Promise<void>|void)
+  id:string,
+  text:string
 }
 
-export default function Tag ({text,onRemove}:TagProps) {
+export default function Tag ({id,text}:TagProps) {
+  const removeCharacter = useDataStore(s=>s.removeCharacter)
   return (
-    <div className="text-sm bg-gray-200 p-1 px-1.5 rounded-sm flex items-center justify-center gap-1 select-none">
+    <button 
+    onClick={()=>removeCharacter(id)}
+    className="text-sm bg-gray-200 p-1 px-1.5 rounded-sm flex items-center justify-center gap-1 select-none">
         {text}
-        <button 
-            onClick={onRemove}
-            className='text-xs p-0.5 rounded w-5 h-5 border bg-gray-400 text-white' type='button'>X</button>
-    </div>
+        <div 
+            className='text-xs p-0.5 rounded w-5 h-5 border bg-gray-400 text-white'>X</div>
+    </button>
   )
 }

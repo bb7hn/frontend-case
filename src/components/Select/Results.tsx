@@ -9,6 +9,9 @@ const Results = () => {
     const page = useDataStore(s=>s.page)
     const setPage = useDataStore(s=>s.setPage);
     
+
+    console.log(characters.length,resultInfo,page);
+
     if(characters.length===0){
         return null
     }
@@ -33,11 +36,11 @@ const Results = () => {
                     <CharacterShimmer/>
                 </>}
                 height={384}
-                endMessage={
+                /* endMessage={
                     <p style={{ textAlign: "center" }}>
                     <b>Yay! You have seen it all</b>
                     </p>
-                }
+                } */
                 >
                     {characters.map((c,idx)=><Character key={idx} character={c}/>)}
             </InfiniteScroll>
