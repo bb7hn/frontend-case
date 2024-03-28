@@ -24,7 +24,7 @@ function Search() {
       { /* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
       <label htmlFor={inputId} className="flex items-center cursor-text p-2">
         <input
-          autoComplete="false"
+          autoComplete="off"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           id={inputId}
