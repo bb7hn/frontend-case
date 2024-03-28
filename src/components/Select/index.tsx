@@ -1,48 +1,64 @@
-import React, { useEffect, useId, useState } from 'react'
-import Tag from './Tag'
-import useDebounce from '@/hooks/useDebounce';
-import Results from './Results';
-import { GET_CHARACTERS, GET_CHARACTERS_RESPONSE } from '@/graphql/getCharacters';
+import React, { useEffect } from 'react';
+import { GET_CHARACTERS, GetCharactersResponse } from '@/graphql/getCharacters';
 import { useQuery } from '@apollo/client';
-import { useDataStore } from '@/store/DataStore';
-import Tags from './Tags';
+import useDataStore from '@/store/DataStore';
 import Search from './Search';
-import client from '@/graphql/client';
+import Results from './Results';
+import RenderIf from '../RenderIf';
 
-const Select = () => {
+function Select() {
+  const wrapperRef = React.useRef < HTMLDivElement>(null);
+  const [isVisbile, setIsVisible] = React.useState(false);
+  const addCharacters = useDataStore((s) => s.addCharacters);
+  const setInfo = useDataStore((s) => s.setInfo);
 
-    const addCharacters = useDataStore(s=>s.addCharacters)
-    const setInfo = useDataStore(s=>s.setInfo)
+  const page = useDataStore((s) => s.page);
+  const query = useDataStore((s) => s.query);
 
-    const page = useDataStore(s=>s.page)
-    const query = useDataStore(s=>s.query)
+  const { loading, error, data } = useQuery<GetCharactersResponse>(GET_CHARACTERS, {
+    variables: {
+      page, query,
+    },
+  });
 
-    const { loading, error, data } = useQuery<GET_CHARACTERS_RESPONSE>(GET_CHARACTERS(page,query));
+  const handleClicks = (e:MouseEvent) => {
+    const element = e.target as HTMLElement;
+    console.log(element.classList);
+    if (element.classList.contains('TagButton')) {
+      return;
+    }
+    setIsVisible(!(wrapperRef.current && !wrapperRef.current.contains(element)));
+  };
+  useEffect(() => {
+    window.addEventListener('click', handleClicks);
+    return () => window.removeEventListener('click', handleClicks);
+  }, []);
 
-    /* useEffect(()=>{
-        //get initial characters
-        client.query({
-            query:GET_CHARACTERS(page,query)
-        }).then(res=>{
-            addCharacters(res.data.characters.results)
-            setInfo(res.data.characters.info)
-        })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[]) */
+  useEffect(() => {
+    if (!data || error) return;
 
-    useEffect(()=>{
-        if(!data || error) return
-        
-        addCharacters(data.characters.results)
-        setInfo(data.characters.info)
-        
-    },[data, error, addCharacters, setInfo])
+    addCharacters(data.characters.results);
+    setInfo(data.characters.info);
+  }, [data, error, addCharacters, setInfo]);
 
+  if (error) {
     return (
-        <>
-            <Search/>
-        </>
-    )
+      <div className="bg-red-400 w-80 p-2 rounded">
+        <p>
+          {error.message}
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div ref={wrapperRef}>
+      <Search />
+      <RenderIf condition={isVisbile}>
+        <Results loading={loading} />
+      </RenderIf>
+    </div>
+  );
 }
 
-export default Select
+export default Select;
