@@ -1,11 +1,6 @@
 import useDataStore from '@/store/DataStore';
 import React from 'react';
 
-interface TagProps {
-  id:string,
-  text:string
-}
-
 export default function Tag({ id, text }:TagProps) {
   const removeCharacter = useDataStore((s) => s.removeCharacter);
   return (

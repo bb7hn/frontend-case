@@ -1,10 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-interface CheckboxProps {
-  checked?:boolean
-}
-function Checkbox({ checked = false }:CheckboxProps) {
+function Checkbox({ checked = false }:{ checked?:boolean }) {
   return (
     <div className={classNames('w-4 h-4 border rounded-sm flex items-center justify-center', {
       'bg-blue-500': checked,

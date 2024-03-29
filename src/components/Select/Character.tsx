@@ -1,14 +1,9 @@
 import useDataStore from '@/store/DataStore';
-import { Character as CharacterType } from '@/graphql/getCharacters';
 import Image from 'next/image';
 import React from 'react';
 import HighlightText from '../HighlightText';
 import Checkbox, { CheckboxShimmer } from '../Checkbox';
 
-interface CharacterProps {
-  character:CharacterType,
-  style:React.CSSProperties
-}
 function Character({ character, style }:CharacterProps) {
   const query = useDataStore((s) => s.query);
   const toggleCharacter = useDataStore((s) => s.toggleCharacter);
@@ -41,10 +36,6 @@ function Character({ character, style }:CharacterProps) {
       </div>
     </button>
   );
-}
-
-interface CharacterShimmerProps {
-  style:React.CSSProperties
 }
 
 export function CharacterShimmer({ style }:CharacterShimmerProps) {

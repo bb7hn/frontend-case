@@ -4,10 +4,7 @@ import { FixedSizeList as List } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 import Character, { CharacterShimmer } from './Character';
 
-interface ResultsProps {
-  loading:boolean
-}
-function Results({ loading }:ResultsProps) {
+function Results({ loading }:{ loading:boolean }) {
   const characters = useDataStore((state) => state.characters);
   const resultInfo = useDataStore((s) => s.info);
   const setPage = useDataStore((s) => s.setPage);
