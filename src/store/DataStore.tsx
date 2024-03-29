@@ -1,4 +1,3 @@
-import { Character, ResultInfo } from '@/graphql/getCharacters';
 import { create } from 'zustand';
 
 type SelectedCharacter = {
