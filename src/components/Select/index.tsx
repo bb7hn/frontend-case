@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { GET_CHARACTERS, GetCharactersResponse } from '@/graphql/getCharacters';
 import { useQuery } from '@apollo/client';
 import useDataStore from '@/store/DataStore';
+import GET_CHARACTERS from '@/graphql/getCharacters';
 import Search from './Search';
 import Results from './Results';
 import RenderIf from '../RenderIf';
@@ -23,7 +23,6 @@ function Select() {
 
   const handleClicks = (e:MouseEvent) => {
     const element = e.target as HTMLElement;
-    console.log(element.classList);
     if (element.classList.contains('TagButton')) {
       return;
     }
